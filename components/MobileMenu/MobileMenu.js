@@ -37,10 +37,13 @@ const MobileMenu = () => {
                         <AnchorLink href='#scrool'>Home</AnchorLink>
                     </li>
                     <li>
-                        <Link activeClass="active" to="about" spy={true} smooth={true} duration={500}>About</Link>
+                        <Link activeClass="active" to="about" spy={true} smooth={true} duration={500}>IDO</Link>
                     </li>
-                    <li><Link activeClass="active" to="service" spy={true} smooth={true} duration={500}>Service</Link></li>
+                    <li><Link activeClass="active" to="service" spy={true} smooth={true} duration={500}>關於LBB</Link></li>
                     <li>
+                        <Link activeClass="active" to="experience" spy={true} smooth={true} duration={500}>邀請連結</Link>
+                    </li>
+                    {/* <li>
                         <Link activeClass="active" to="portfolio" spy={true} smooth={true} duration={500} onClick={ClickHandler}>Portfolio</Link>
                     </li>
                     <li>
@@ -48,7 +51,7 @@ const MobileMenu = () => {
                     </li>
                     <li>
                         <Link activeClass="active" to="blog" spy={true} smooth={true} duration={500}>Blog</Link>
-                    </li>
+                    </li> */}
                 </ul>
 
             </div>

@@ -8,7 +8,7 @@ import AnchorLink from 'react-anchor-link-smooth-scroll'
 const Header = (props) => {
 
     const handleDefaultAccount = (value) => {
-        console.log(value);
+        props.defaultAccountChange(value)
     }
 
     const ClickHandler = () => {
@@ -37,21 +37,23 @@ const Header = (props) => {
                                     <ul className="nav navbar-nav mb-2 mb-lg-0">
                                         <li className="menu-item-has-children">
                                             <AnchorLink href='#scrool'>Home</AnchorLink>
-                                            {/* <Link activeClass="active" to="about" spy={true} smooth={true} duration={500}>About</Link> */}
                                         </li>
                                         <li>
-                                            <Link activeClass="active" to="about" spy={true} smooth={true} duration={500}>About</Link>
+                                            <Link activeClass="active" to="about" spy={true} smooth={true} duration={500}>IDO</Link>
                                         </li>
-                                        <li><Link activeClass="active" to="service" spy={true} smooth={true} duration={500}>Service</Link></li>
+                                        <li><Link activeClass="active" to="service" spy={true} smooth={true} duration={500}>關於LBB</Link></li>
                                         <li>
-                                            <Link activeClass="active" to="portfolio" spy={true} smooth={true} duration={500} onClick={ClickHandler}>Portfolio</Link>
+                                            <Link activeClass="active" to="experience" spy={true} smooth={true} duration={500}>邀請連結</Link>
+                                        </li>
+                                        {/* <li>
+                                            <Link activeClass="active" to="portfolio" spy={true} smooth={true} duration={500}>Portfolio</Link>
                                         </li>
                                         <li>
                                             <Link activeClass="active" to="contact" spy={true} smooth={true} duration={500}>Contact</Link>
                                         </li>
                                         <li>
                                             <Link activeClass="active" to="blog" spy={true} smooth={true} duration={500}>Blog</Link>
-                                        </li>
+                                        </li> */}
                                     </ul>
 
                                 </div>

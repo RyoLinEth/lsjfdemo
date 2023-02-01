@@ -13,13 +13,13 @@ const Hero = () => {
                                 <div className="wpo-static-hero-inner">
                                     <div data-swiper-parallax="300" className="slide-title">
                                         <h2><span>您好,</span>
-                                            歡迎來到LSJF</h2>
+                                            歡迎來到LBB</h2>
                                     </div>
                                     <div data-swiper-parallax="300" className="slide-sub-title">
-                                        <h5>此為IDO頁面</h5>
+                                        <h5>IDO</h5>
                                     </div>
                                     <div data-swiper-parallax="400" className="slide-text">
-                                        <p>使用 50 / 100 USDT 參加綠色積分 IDO</p>
+                                        <p>使用 50 / 100 USDT 參加綠寶寶 IDO</p>
                                     </div>
                                     <div className="clearfix"></div>
                                     <div className="slide-btn"><Link className="theme-btn" to="about" spy={true} smooth={true}  duration={500}>現在參加</Link></div>
@@ -32,19 +32,18 @@ const Hero = () => {
             <div className="static-hero-right">
                 <div className="static-hero-img">
                     <div className="static-hero-img-inner">
-                        <img src='images/slider/1.jpg' alt="" />
-                        <div className="icon-1 floating-item"><img src='images/icon/bnb2.png' alt="" /></div>
-                        <div className="icon-2 floating-item"><img src='images/icon/illustrator.svg' alt="" /></div>
-                        <div className="icon-3 floating-item"><img src='images/icon/diamond.svg' alt="" /></div>
-                        <div className="project floating-item">
+                        <img src='images/slider/LBB.png' alt="" />
+                        {/* <div className="icon-1 floating-item"><img src='images/icon/bnb2.png' alt="" /></div> */}
+                        {/* <div className="icon-2 floating-item"><img src='images/icon/illustrator.svg' alt="" /></div> */}
+                        {/* <div className="icon-3 floating-item"><img src='images/icon/diamond.svg' alt="" /></div> */}
+                        {/* <div className="project floating-item">
                             <div className="icon">
                                 <i className="fi flaticon-verified"></i>
                             </div>
                             <div className="p-text">
-                                <h3><span data-count="1500">1500</span>+</h3>
-                                <p>Complete Project</p>
+                                <h3>Safu</h3>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

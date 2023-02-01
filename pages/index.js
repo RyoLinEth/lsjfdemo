@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, {Fragment} from 'react';
+import React, { Fragment, useState } from 'react';
 import About from '../components/about/about';
 import BlogSection from '../components/BlogSection/BlogSection';
 import CommonHead from '../components/commonHead';
@@ -15,25 +15,32 @@ import ServiceSection from '../components/ServiceSection/ServiceSection';
 import Testimonial from '../components/Testimonial/Testimonial';
 
 export default function Home() {
+  const [defaultAccount, setDefaultAccount] = useState(null);
+
+  const handleDefaultAccount = (value) => {
+    setDefaultAccount(value);
+  }
   return (
     <div id='scrool'>
-      <CommonHead/>
+      <CommonHead />
       <Fragment>
-            <div className="br-app">
-                <Navbar/>
-                <Hero/>
-                <About/>
-                <ServiceSection/>
-                <ExprienceSec/>
-                <ProjectSection/>
-                <Testimonial/>
-                <Pricing/>
-                <ContactArea/>
-                <BlogSection/>
-                <Footer/>
-                <Scrollbar/>
-            </div>
-        </Fragment>
+        <div className="br-app">
+          <Navbar
+            defaultAccountChange={handleDefaultAccount}
+          />
+          <Hero />
+          <About />
+          <ServiceSection />
+          <ExprienceSec defaultAccount={defaultAccount} />
+          {/* <ProjectSection />
+          <Testimonial />
+          <Pricing />
+          <ContactArea />
+          <BlogSection /> */}
+          <Footer />
+          <Scrollbar />
+        </div>
+      </Fragment>
     </div>
   )
 }
