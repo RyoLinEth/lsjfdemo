@@ -1,12 +1,182 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import swal from 'sweetalert'
+import Web3 from 'web3';
+import { ethers } from 'ethers'
+import { useRouter } from 'next/router';
+import Loading from '../Loading';
 
+const defaultInviter = "0x3Da22618ABd874623cA479CA1FB49674174EA970";
+
+let OKCMainnetProvider = 'https://exchainrpc.okex.org/';
+let BSCMainnetProvider = 'https://bsc-dataseed.binance.org/';
+let web3 = new Web3(new Web3.providers.HttpProvider(OKCMainnetProvider));
 
 const About = (props) => {
+    const [inviterAddress, setInviterAddress] = useState(defaultInviter)
+    const [isInviterSet, setIsInviterSet] = useState(false)
+
+    const [isJoined, setIsJoined] = useState(false);
+    const [isIDOActive, setIsIDOActive] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isGetOnce, setIsGetOnce] = useState(false);
+
+    useEffect(() => {
+        const getContractValue = async () => {
+            if (props.contract === null) return;
+
+            let tempJoin = await props.contract.isAddressJoined(props.defaultAccount);
+            console.log("The address has joined? " + tempJoin)
+            setIsJoined(tempJoin);
+
+            let tempIDOActive = await props.contract.isIDOActive();
+            console.log("The ido is active? " + tempIDOActive)
+            setIsIDOActive(tempIDOActive);
+
+            console.log(
+                `
+            isJoined : ${tempJoin}
+            isIDOActive : ${tempIDOActive}
+            `
+            )
+        }
+
+        getContractValue()
+    }, [props.defaultAccount, props.contract])
+
+    const checkBalance = async () => {
+        let tempBalanceHex = await props.usdtContract.balanceOf(props.defaultAccount);
+        let tempBalance = web3.utils.fromWei(`${tempBalanceHex}`, 'ether');
+        console.log("My balance is " + tempBalance);
+        return tempBalance;
+    }
+
+    const checkAllowance = async () => {
+        console.log("Checking Allowance...");
+        let allowance = await props.usdtContract.allowance(props.defaultAccount, props.contract.address);
+        const allowanceAmount = web3.utils.fromWei(`${allowance}`, 'ether');
+        return allowanceAmount;
+    }
+
+    const checkAllowanceAgain = async (value) => {
+        let result = await checkAllowance()
+        console.log("In check allowance again : " + result);
+
+        if (result < value) {
+            setIsLoading(true);
+            setTimeout(async () => {
+                await checkAllowanceAgain(value)
+                return;
+            }, 3000)
+        }
+        else
+            handleContribute(value);
+    }
+
+    const handleContribute = async (value) => {
+        setIsLoading(false);
+        try {
+            let etherAmount;
+            etherAmount = ethers.utils.parseEther(`${value}`);
+            console.log("In handle contribute")
+            console.log(`
+            Inviter : ${inviterAddress}
+            USDT Amount : ${etherAmount}`)
+            let result = await props.contract.makeIDO(
+                inviterAddress, etherAmount, { gasLimit: "1000000" }
+            );
+
+            if (!result) {
+                swal("錯誤", "認購失敗", "error");
+            } else {
+                setIsJoined(true);
+                if (value === 50)
+                    swal("成功", "成功認購 50 USDT", "success");
+                if (value === 100)
+                    swal("成功", "成功認購 100 USDT", "success");
+            }
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    const joinIDO = async (value) => {
+        console.log(isJoined)
+        if (props.defaultAccount === null) {
+            swal("錯誤", "請先連結錢包", "error");
+            return;
+        }
+        if (isIDOActive === false) {
+            swal("錯誤", "IDO 未開啟", "error");
+            return;
+        }
+        if (isJoined === true) {
+            swal("錯誤", "您已參加過IDO", "error");
+            return;
+        }
+        let balance = await checkBalance()
+
+        if (value > balance) {
+            swal("錯誤", "您沒有足夠的USDT", "error");
+            return;
+        }
+
+        let result = await checkAllowance()
+        const approveAmount = web3.utils.toWei(`${value}`, 'ether');
+
+        if (result >= value) {
+
+            console.log(`Allowance ${result}`)
+            console.log(`ApproveAmount ${approveAmount}`)
+            console.log(`Allowance is enought for ${value} USDT`)
+            handleContribute(value)
+        }
+        else
+            try {
+                console.log(`Allowance is NOT enought for ${value} USDT`)
+                let result2 = await props.usdtContract.approve(props.contract.address, approveAmount);
+                if (result2)
+                    checkAllowanceAgain(value);
+            } catch {
+                swal("錯誤", "授權USDT失敗", "error");
+            }
+    }
+
+    const router = useRouter();
+    const { pathname, query } = router;
+
+    const analyzeLink = () => {
+        if (inviterAddress !== defaultInviter) return;
+        if (isInviterSet === true) return;
+        let tempInviter = query['inviter']
+
+        if (tempInviter !== undefined) {
+            try {
+                let checkSumAddress = web3.utils.toChecksumAddress(tempInviter)
+                setInviterAddress(checkSumAddress);
+                console.log("The Inviter Set to : " + checkSumAddress);
+            } catch (err) {
+                console.log(`Address : ${tempInviter} cannot be transformed into a checksum address`)
+            }
+        }
+    }
+
+
+    analyzeLink()
+
+
     return (
         <div className="wpo-about-area section-padding" id='about'>
             <div className="container">
                 <div className="row align-items-center">
                     <div className="col-lg-5 col-md-12 col-sm-12">
+
+                        <div onClick={() => setIsLoading(false)}>
+                            {
+                                isLoading &&
+                                <Loading />
+                            }
+                        </div>
                         <div className="wpo-about-exprience-wrap">
                             <div className="wpo-about-exprience">
                                 <h2>IDO</h2>
@@ -21,7 +191,7 @@ const About = (props) => {
                     <div className="col-lg-6 offset-lg-1 col-md-12 col-sm-12">
                         <div className="wpo-about-content">
                             <div className="wpo-about-title">
-                                <h2>綠色積分 - 三代返傭</h2><br />
+                                <h2>LBB - 三代返傭</h2><br />
                             </div>
 
                             <h5>三代IDO USDT實時返傭</h5>
@@ -50,26 +220,20 @@ const About = (props) => {
 
                             <h5>IDO額度 50 / 100 USDT</h5>
                             <div className="wpo-about-funfact">
-                                <div className="grid" style={{cursor:"pointer"}}>
-                                    <div className="grid-inner">
+                                <div className="grid" style={{ cursor: "pointer" }}>
+                                    <div className="grid-inner" onClick={() => joinIDO(50)}>
                                         <h3><span data-count="72">50</span></h3>
                                         <p>USDT</p>
                                     </div>
                                 </div>
-                                <div className="grid" style={{cursor:"pointer"}}>
-                                    <div className="grid-inner">
+                                <div className="grid" style={{ cursor: "pointer" }}>
+                                    <div className="grid-inner" onClick={() => joinIDO(100)}>
                                         <h3><span data-count="43">100</span></h3>
                                         <p>USDT</p>
                                     </div>
                                 </div>
-                                {/* <div className="grid">
-                                    <div className="grid-inner">
-                                        <h3><span data-count="37">37</span>%</h3>
-                                        <p>ReactJS</p>
-                                    </div>
-                                </div> */}
                             </div>
-                            <h5 style={{color:'red'}}>** 點擊上方按鈕直接參加IDO **</h5>
+                            <h5 style={{ color: 'red' }}>** 點擊上方按鈕直接參加IDO **</h5>
                         </div>
                     </div>
                 </div>

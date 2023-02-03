@@ -43,10 +43,10 @@ const MobileMenu = () => {
                     <li>
                         <Link activeClass="active" to="experience" spy={true} smooth={true} duration={500}>邀請連結</Link>
                     </li>
-                    {/* <li>
-                        <Link activeClass="active" to="portfolio" spy={true} smooth={true} duration={500} onClick={ClickHandler}>Portfolio</Link>
-                    </li>
                     <li>
+                        <Link activeClass="active" to="portfolio" spy={true} smooth={true} duration={500} onClick={ClickHandler}>領幣</Link>
+                    </li>
+                    {/* <li>
                         <Link activeClass="active" to="contact" spy={true} smooth={true} duration={500}>Contact</Link>
                     </li>
                     <li>

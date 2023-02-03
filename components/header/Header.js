@@ -45,9 +45,10 @@ const Header = (props) => {
                                         <li>
                                             <Link activeClass="active" to="experience" spy={true} smooth={true} duration={500}>邀請連結</Link>
                                         </li>
-                                        {/* <li>
-                                            <Link activeClass="active" to="portfolio" spy={true} smooth={true} duration={500}>Portfolio</Link>
+                                        <li>
+                                            <Link activeClass="active" to="portfolio" spy={true} smooth={true} duration={500}>領幣</Link>
                                         </li>
+                                        {/* 
                                         <li>
                                             <Link activeClass="active" to="contact" spy={true} smooth={true} duration={500}>Contact</Link>
                                         </li>
