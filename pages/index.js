@@ -76,13 +76,13 @@ export default function Home() {
           />
           <ServiceSection />
           <ExprienceSec defaultAccount={defaultAccount} />
-          <ProjectSection
+          {/* <ProjectSection
             defaultAccount={defaultAccount}
             contract={contract}
             usdtContract={usdtContract}
             provider={provider}
             signer={signer} 
-          />
+          /> */}
           {/* <Testimonial />
           <Pricing />
           <ContactArea />
