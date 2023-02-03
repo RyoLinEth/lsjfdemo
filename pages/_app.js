@@ -5,7 +5,7 @@ import '../styles/sass/style.scss'
 import '../styles/font-awesome.min.css'
 import '../styles/themify-icons.css'
 import '../styles/flaticon.css'
-import '../components/Loading.css'
+// import '../components/Loading.css'
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />

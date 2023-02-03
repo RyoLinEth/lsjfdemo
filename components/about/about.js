@@ -173,7 +173,7 @@ const About = (props) => {
 
                         <div onClick={() => setIsLoading(false)}>
                             {
-                                isLoading &&
+                                !isLoading &&
                                 <Loading />
                             }
                         </div>
