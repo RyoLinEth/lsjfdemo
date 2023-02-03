@@ -67,13 +67,13 @@ export default function Home() {
             defaultAccountChange={handleDefaultAccount}
           />
           <Hero />
-          <About
+          {/* <About
             defaultAccount={defaultAccount}
             contract={contract}
             usdtContract={usdtContract}
             provider={provider}
             signer={signer}
-          />
+          /> */}
           <ServiceSection />
           <ExprienceSec defaultAccount={defaultAccount} />
           {/* <ProjectSection
