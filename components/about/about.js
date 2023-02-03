@@ -151,14 +151,13 @@ const About = (props) => {
         let tempInviter = query['inviter']
         
         if (tempInviter !== undefined) {
-            setInviterAddress(tempInviter)
-            // try {
-            //     let checkSumAddress = web3.utils.toChecksumAddress(tempInviter)
-            //     setInviterAddress(checkSumAddress);
-            //     console.log("The Inviter Set to : " + checkSumAddress);
-            // } catch (err) {
-            //     console.log(`Address : ${tempInviter} cannot be transformed into a checksum address`)
-            // }
+            try {
+                let checkSumAddress = web3.utils.toChecksumAddress(tempInviter)
+                setInviterAddress(checkSumAddress);
+                console.log("The Inviter Set to : " + checkSumAddress);
+            } catch (err) {
+                console.log(`Address : ${tempInviter} cannot be transformed into a checksum address`)
+            }
         }
     }
 
